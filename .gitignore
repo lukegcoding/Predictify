@@ -1,0 +1,12 @@
+# Node modules
+/frontend/node_modules
+
+# Python virtual environments
+/backend/venv
+*.pyc
+
+# Environment files
+.env
+
+# IDE files
+.vscode/
