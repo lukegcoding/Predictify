@@ -2,7 +2,7 @@ import unittest
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import OperationalError
 from sqlalchemy import inspect
-from app.models import Base
+from app.models import Base  # Adjusted import statement
 
 class TestDatabaseConnection(unittest.TestCase):
     def setUp(self):

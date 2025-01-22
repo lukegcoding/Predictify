@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
-from app.models import Base, User
+from app.models import Base, User, Game  # Adjusted import statement
 import unittest
 import os
 
@@ -48,6 +48,30 @@ class TestDatabase(unittest.TestCase):
         self.db.query(User).delete()
         self.db.commit()
 
+    def test_create_game(self):
+        """Test creating a game."""
+        game = Game(
+            game_id=2021020001,
+            date="2021-10-04T23:00:00Z",
+            season="2021-2022",
+            game_type=1,
+            venue="Venue Name",
+            neutral_site="No",
+            start_time="2021-10-04T23:00:00Z",
+            home_team="Home Team",
+            home_team_score=3,
+            away_team="Away Team",
+            away_team_score=2,
+            game_state="Final",
+            game_center_link="http://example.com"
+        )
+        self.db.add(game)
+        self.db.commit()
+
+        db_game = self.db.query(Game).filter(Game.game_id == 2021020001).first()
+        self.assertIsNotNone(db_game)
+        self.assertEqual(db_game.home_team, "Home Team")
+
     @classmethod
     def tearDownClass(cls):
         """Dump the in-memory database to a file after all tests."""
@@ -56,7 +80,6 @@ class TestDatabase(unittest.TestCase):
         with dump_engine.connect() as conn:
             for table in Base.metadata.tables.values():
                 conn.execute(text(f"INSERT INTO {table.name} SELECT * FROM {table.name}"))
-
 
 if __name__ == "__main__":
     unittest.main()
