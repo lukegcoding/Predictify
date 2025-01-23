@@ -6,3 +6,4 @@ pydantic
 pytz
 requests
 pandas
+email-validator
